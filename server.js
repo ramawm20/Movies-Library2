@@ -6,6 +6,7 @@ const cors = require("cors")
 const server = express();
 require('dotenv').config();
 const pg = require('pg')
+
 server.use(cors())
 const PORT = process.env.PORT;
 const axios = require("axios")
@@ -65,15 +66,25 @@ function Movies(id, title, release_date, poster_path, overview) {
 }
 
 //trending function to display trending page
-async function trending(req, res) {
+ function trending(req, res) {
     const url = `https://api.themoviedb.org/3/trending/all/week?api_key=${apikey}&language=en-US`
-    let result = await axios.get(url)
-    console.log(result.data);
-    let mapResult = result.data.results.map(item => {
-        let m = new Movies(item.id, item.original_title, item.release_date, item.backdrop_path, item.overview)
-        return m;
+    try{
+    axios.get(url)
+    .then(result =>{
+        let mapResult = result.data.results.map(item => {
+            let m = new Movies(item.id, item.original_title, item.release_date, item.backdrop_path, item.overview)
+            return m;
+        })
+        res.send(mapResult)
     })
-    res.send(mapResult)
+    .catch((error)=>{
+        errorHandler(error,req,res)
+    })
+}
+    
+catch(error){
+    errorHandler(error,req,res)
+}
 }
 
 //search function to display search page
