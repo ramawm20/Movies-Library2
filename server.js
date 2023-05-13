@@ -78,7 +78,8 @@ function Movies(id, title, release_date, poster_path, overview) {
         res.send(mapResult)
     })
     .catch((error)=>{
-        errorHandler(error,req,res)
+        console.log('sorry you have something error',error)
+        res.status(500).send(error);
     })
 }
     
@@ -90,6 +91,7 @@ catch(error){
 //search function to display search page
 function search(req, res) {
     let url = `https://api.themoviedb.org/3/search/movie?api_key=${apikey}&language=en-US&query=The&page=2`
+    try{
     axios.get(url)
         .then(result => {
             let r = result.data;
@@ -97,8 +99,13 @@ function search(req, res) {
         }
         )
         .catch((error) => {
-            errorHandler(error,req,res)
+            console.log('sorry you have something error',error)
+            res.status(500).send(error);
         })
+    }
+    catch (error) {
+        errorHandler(error, req, res)
+    }
 }
 
 //genres function to display type of movies in general
@@ -111,7 +118,8 @@ function genres(req, res) {
                 res.send(r)
             })
             .catch((error) => {
-               errorHandler(error,req,res)
+                console.log('sorry you have something error',error)
+                res.status(500).send(error);
             })
 
     }
@@ -123,6 +131,7 @@ function genres(req, res) {
 //favActor function that display info of one of my favorite actors
 function favActor(req, res) {
     let url = `https://api.themoviedb.org/3/person/287?api_key=${apikey}&language=en-US`
+    try{
     axios.get(url)
         .then(result => {
             let r = result.data;
@@ -130,9 +139,13 @@ function favActor(req, res) {
         }
         )
         .catch((error) => {
-            errorHandler(error, req, res)
+            console.log('sorry you have something error',error)
+            res.status(500).send(error);
         })
-        
+    }
+    catch (error) {
+        errorHandler(error, req, res)
+    }
 
 }
 
