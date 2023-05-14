@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 const axios = require("axios")
 const data = require("./data.json")
 const apikey = process.env.APIkey;
-const DBURL=process.env.DatabaseUrl;
+const DBURL=process.env.DATABASE_URL;
 server.use(express.json())
 
 
